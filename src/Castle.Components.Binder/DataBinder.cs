@@ -138,6 +138,11 @@ namespace Castle.Components.Binder
 			return result;
 		}
 
+		public object BindObject(Type targetType, CompositeNode treeRoot)
+		{
+			return BindObject(targetType, "", null, null, treeRoot);
+		}
+
 		public object BindObject(Type targetType, string prefix, CompositeNode treeRoot)
 		{
 			return BindObject(targetType, prefix, null, null, treeRoot);
@@ -167,6 +172,11 @@ namespace Castle.Components.Binder
 			allowedPropertyList = CreateNormalizedList(allowedProperties);
 
 			return InternalBindObject(targetType, prefix, treeRoot.GetChildNode(prefix));
+		}
+
+		public void BindObjectInstance(object instance, CompositeNode treeRoot)
+		{
+			BindObjectInstance(instance, "", null, null, treeRoot);
 		}
 
 		public void BindObjectInstance(object instance, string prefix, CompositeNode treeRoot)

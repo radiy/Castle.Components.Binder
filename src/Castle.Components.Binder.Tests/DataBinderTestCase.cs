@@ -320,6 +320,19 @@ namespace Castle.Components.Binder.Tests
 			Assert.IsNull(instance.Type1);
 			Assert.IsNull(instance.Type2);
 		}
+
+		[Test]
+		public void BindWithoutPrefix()
+		{
+			var data = "Name = John";
+
+			var args = TestUtils.ParseNameValueString(data);
+
+			var customer = (Customer)binder.BindObject(typeof(Customer), builder.BuildSourceNode(args));
+
+			Assert.IsNotNull(customer);
+			Assert.That(customer.Name, Is.EqualTo("John"));
+		}
 	}
 
 	#region Class Helpers

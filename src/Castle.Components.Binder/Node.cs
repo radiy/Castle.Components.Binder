@@ -87,6 +87,9 @@ namespace Castle.Components.Binder
 
 		public Node GetChildNode(String name)
 		{
+			if (name == "")
+				return this;
+
 			int index = name.IndexOf(".");
 
 			if (!name2Node.Contains(name) && index != -1)

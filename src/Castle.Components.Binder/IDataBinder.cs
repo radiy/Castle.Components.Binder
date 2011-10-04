@@ -35,6 +35,15 @@ namespace Castle.Components.Binder
 		/// are available on the datasource.
 		/// </summary>
 		/// <param name="targetType">The target type. Can be an array</param>
+		/// <param name="treeRoot">A hierarchycal representation of flat data</param>
+		/// <returns>an instance of the specified target type</returns>
+		object BindObject(Type targetType, CompositeNode treeRoot);
+
+		/// <summary>
+		/// Create an instance of the specified type and binds the properties that
+		/// are available on the datasource.
+		/// </summary>
+		/// <param name="targetType">The target type. Can be an array</param>
 		/// <param name="prefix">The obligatory prefix that distinguishes it on the datasource</param>
 		/// <param name="treeRoot">A hierarchycal representation of flat data</param>
 		/// <returns>an instance of the specified target type</returns>
@@ -52,6 +61,15 @@ namespace Castle.Components.Binder
 		/// <returns>an instance of the specified target type</returns>
 		object BindObject(Type targetType, String prefix, String excludedProperties, String allowedProperties,
 		                  CompositeNode treeRoot);
+
+		/// <summary>
+		/// Binds the properties that are available on the datasource to the specified object instance.
+		/// </summary>
+		/// <param name="instance">The target instance.</param>
+		/// <param name="prefix">The obligatory prefix that distinguishes it on the datasource</param>
+		/// <param name="treeRoot">A hierarchycal representation of flat data</param>
+		/// <returns>an instance of the specified target type</returns>
+		void BindObjectInstance(object instance, CompositeNode treeRoot);
 
 		/// <summary>
 		/// Binds the properties that are available on the datasource to the specified object instance.
