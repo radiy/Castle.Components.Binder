@@ -66,7 +66,6 @@ namespace Castle.Components.Binder
 		/// Binds the properties that are available on the datasource to the specified object instance.
 		/// </summary>
 		/// <param name="instance">The target instance.</param>
-		/// <param name="prefix">The obligatory prefix that distinguishes it on the datasource</param>
 		/// <param name="treeRoot">A hierarchycal representation of flat data</param>
 		/// <returns>an instance of the specified target type</returns>
 		void BindObjectInstance(object instance, CompositeNode treeRoot);
