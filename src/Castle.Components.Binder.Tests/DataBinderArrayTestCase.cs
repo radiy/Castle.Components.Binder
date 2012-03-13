@@ -263,5 +263,23 @@ namespace Castle.Components.Binder.Tests
 			Assert.AreEqual(30, person.Months[2]);
 			Assert.AreEqual(40, person.Months[3]);
 		}
+
+		[Test]
+		public void Bind_allow_relative_to_root()
+		{
+			var data =
+				@" 
+				Person[0].Name = John
+				Person[0].Age  = 32
+				Person[1].Name = Mary
+				Person[1].Age  = 16
+			";
+
+			var args = TestUtils.ParseNameValueString(data);
+
+			var instance = (Person[])binder.BindObject(typeof (Person[]), "Person", null, "Person.Age", builder.BuildSourceNode(args));
+			Assert.IsNull(instance[0].Name);
+			Assert.AreEqual(instance[0].Age, 32);
+		}
 	}
 }

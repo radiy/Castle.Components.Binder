@@ -12,6 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // 
+
+using System.Text;
+
 namespace Castle.Components.Binder
 {
 	using System;
@@ -58,6 +61,24 @@ namespace Castle.Components.Binder
 
 				return Name;
 			}
+		}
+
+		//composite node after indexer node will be index value, we should ignore it
+		public string FullNameWithoutIndexer()
+		{
+			var name = new StringBuilder();
+			var node = this;
+			while (node != null) {
+				var skip = node.Parent is IndexedNode;
+				if (!skip) {
+					if (name.Length > 0)
+						name.Insert(0, ".");
+					name.Insert(0, node.Name);
+				}
+
+				node = node.Parent;
+			}
+			return name.ToString();
 		}
 
 		public Node Parent { get; set; }

@@ -207,17 +207,6 @@ namespace Castle.Components.Binder
 			excludedPropertyList = CreateNormalizedList(excludedProperties);
 			allowedPropertyList = CreateNormalizedList(allowedProperties);
 
-			if (instance != null)
-			{
-				var instanceType = instance.GetType();
-				if (IsGenericList(instanceType))
-				{
-					bool success;
-					var elemType = instanceType.GetGenericArguments()[0];
-					ConvertToGenericList((IList)instance, elemType, prefix, treeRoot.GetChildNode(prefix), out success);
-				}
-			}
-
 			InternalRecursiveBindObjectInstance(instance, prefix, treeRoot.GetChildNode(prefix));
 		}
 
@@ -301,6 +290,18 @@ namespace Castle.Components.Binder
 				return;
 			}
 
+			if (instance != null)
+			{
+				var instanceType = instance.GetType();
+				if (IsGenericList(instanceType))
+				{
+					bool success;
+					var elemType = instanceType.GetGenericArguments()[0];
+					ConvertToGenericList((IList)instance, elemType, prefix, node, out success);
+					return;
+				}
+			}
+
 			if (node.NodeType != NodeType.Composite && node.NodeType != NodeType.Indexed)
 			{
 				throw new BindingException(
@@ -334,8 +335,7 @@ namespace Castle.Components.Binder
 			Type instanceType = instance.GetType();
 
 			PropertyInfo[] props = instanceType.GetProperties(PropertiesBindingFlags);
-
-			string nodeFullName = node.FullName;
+			var nodeFullName = node.FullNameWithoutIndexer();
 
 			foreach (PropertyInfo prop in props)
 			{

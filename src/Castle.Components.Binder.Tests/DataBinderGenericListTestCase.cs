@@ -12,6 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // 
+
+using System;
+
 namespace Castle.Components.Binder.Tests
 {
 	using System.Collections.Generic;
@@ -288,6 +291,32 @@ namespace Castle.Components.Binder.Tests
 			Assert.AreEqual(2, cust.Months[1]);
 			Assert.AreEqual(3, cust.Months[2]);
 			Assert.AreEqual(4, cust.Months[3]);
+		}
+
+		[Test]
+		public void PlayNiceWithNHibernateDeleteOrphanCascade()
+		{
+			binder = new CustomDataBinder();
+			var data = @"
+				cust.months = 1
+				cust.months = 2
+				cust.months = 3
+				cust.months = 4
+			";
+			var customer = new Customer2();
+			var expected = new List<int>();
+			customer.Months = expected;
+			binder.BindObjectInstance(customer, "cust", builder.BuildSourceNode(TestUtils.ParseNameValueString(data)));
+			Assert.True(ReferenceEquals(customer.Months, expected), "collection recteated");
+			Assert.That(customer.Months.Count, Is.EqualTo(4));
+		}
+	}
+
+	public class CustomDataBinder : DataBinder
+	{
+		protected override bool ShouldRecreateInstance(object value, Type type, string prefix, Node node)
+		{
+			return value == null;
 		}
 	}
 
